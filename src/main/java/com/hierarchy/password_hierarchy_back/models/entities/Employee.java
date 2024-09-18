@@ -4,6 +4,7 @@ import com.hierarchy.password_hierarchy_back.models.dtos.EmployeeRequestDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,7 +33,7 @@ public class Employee {
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "dependent_id", insertable = false)
-    private List<Employee> dependents;
+    private List<Employee> dependents = new ArrayList<>();
 
     public static Employee toPersist(long id, EmployeeRequestDTO request) {
         return Employee.builder()

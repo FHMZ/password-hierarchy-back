@@ -35,10 +35,6 @@ public class PasswordUtils {
     public static long calculatePasswordStrength(String password) {
         long length = password.length();
 
-        if (length < 8) {
-            return 0;
-        }
-
         final List<Character> chars = password.chars().mapToObj(c -> (char) c).collect(Collectors.toList());
 
         long upperCount = filterByCharacter(chars, UPPER_CASE);

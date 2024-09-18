@@ -1,6 +1,5 @@
-package com.hierarchy.password_hierarchy_back.controller;
+package com.hierarchy.password_hierarchy_back.controllers;
 
-import com.hierarchy.password_hierarchy_back.controllers.EmployeeController;
 import com.hierarchy.password_hierarchy_back.models.dtos.*;
 import com.hierarchy.password_hierarchy_back.services.EmployeeService;
 import org.junit.jupiter.api.BeforeEach;
@@ -142,8 +141,7 @@ public class EmployeeControllerTest {
                         .content("{ \"item\": \"password123\" }"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.label").value("Good"))
-                .andExpect(jsonPath("$.score").value(75));
+                .andExpect(jsonPath("$.value").value(75));
 
         verify(employeeService, times(1)).getScore(any(PasswordRequestDTO.class));
     }
@@ -167,19 +165,15 @@ public class EmployeeControllerTest {
     @Test
     @WithMockUser
     void testDeleteEmployee() throws Exception {
-        // Mock the service call
         doNothing().when(employeeService).deleteEmployee(EMPLOYEE_ID);
 
-        // Perform DELETE request
         mockMvc.perform(delete("/api/employee/{id}", EMPLOYEE_ID)
                         .with(csrf()))
                 .andExpect(status().isNoContent());
 
-        // Verify the service call
         verify(employeeService, times(1)).deleteEmployee(EMPLOYEE_ID);
     }
 
-    // Helper methods for mock data
     public static EmployeeResponseDTO createMockEmployeeDTO() {
         EmployeeResponseDTO employeeResponseDTO = new EmployeeResponseDTO();
         employeeResponseDTO.setId(1L);

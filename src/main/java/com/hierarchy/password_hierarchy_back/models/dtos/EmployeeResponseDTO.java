@@ -5,9 +5,9 @@ import com.hierarchy.password_hierarchy_back.models.entities.Employee;
 import lombok.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.hierarchy.password_hierarchy_back.utils.StrengthLabel.getLabelByStrength;
+import static java.util.Collections.emptyList;
 
 @Setter
 @Getter
@@ -38,9 +38,11 @@ public class EmployeeResponseDTO {
                 .passwordStrengthLabel(getLabelByStrength(employee.getPasswordStrengthValue()))
                 .passwordStrengthValue(employee.getPasswordStrengthValue())
                 .dependentId(employee.getDependentId() == null ? 0 : employee.getDependentId())
-                .dependents(employee.getDependents().stream()
-                        .map(EmployeeResponseDTO::fromEntity)
-                        .collect(Collectors.toList()))
+                .dependents(employee.getDependents() == null ?
+                        emptyList() :
+                        employee.getDependents().stream()
+                                .map(EmployeeResponseDTO::fromEntity)
+                                .toList())
                 .build();
     }
 
